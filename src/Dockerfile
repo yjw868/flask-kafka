@@ -12,4 +12,4 @@ RUN pip3 install -r requirements.txt
 
 # Make /app/* available to be imported by Python globally to better support several
 ENV PYTHONPATH=/app
-CMD python -u app.main
+CMD python -m app.main
