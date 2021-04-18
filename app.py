@@ -117,8 +117,26 @@ def kafkaconsumer(message):
     lastOffset = consumer.position(tp)
     consumer.seek_to_beginning(tp)
     emit("kafkaconsumer1", {"data": ""})
+
     for message in consumer:
-        emit("kafkaconsumer", {"data": message.value.decode("utf-8")})
+        # print("message is" + message.value.decode("utf-8"))
+        raw_input = [parse_number(message.value.decode("utf-8"))]
+        final_input = filter_input(raw_input)
+        cov_matrix = np.cov(final_input)
+        # jason.dumps only accpept str, convert result into str
+        result = np.array2string(cov_matrix, precision=16)
+        emit(
+            "kafkaconsumer",
+            {"data": message.value.decode("utf-8") + " covariance matrix is " + result},
+        )
+        # emit(
+        #     "kafkaconsumer",
+        #     {
+        #         "data": message.value.decode("utf-8")
+        #         + str(type(message.value.decode("utf-8")))
+        #     },
+        # )
+        # emit("kafkaconsumer", {"data": message.value.decode("utf-8")})
         if message.offset == lastOffset - 1:
             break
     consumer.close()
@@ -137,17 +155,13 @@ def kafkaproducer(message):
         key=bytes(str(uuid.uuid4()), encoding="utf-8"),
     )
 
-    raw_input = [parse_number(message)]
-    final_input = filter_input(raw_input)
-    cov_matrix = np.cov(final_input)
-    # jason.dumps only accpept str, convert result into str
-    result = np.array2string(cov_matrix, precision=16)
-
     emit("logs", {"data": "Added " + message + " to topic"})
-    emit("kafkaproducer", {"data": message + " covariance matrix " + result})
+    emit(
+        "kafkaproducer", {"data": message},
+    )
     producer.close()
     kafkaconsumer(message)
 
 
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=80, debug=True, log_output=True)
+    socketio.run(app, host="0.0.0.0", port=8000, debug=True, log_output=True)
