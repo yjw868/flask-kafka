@@ -131,4 +131,5 @@ dmypy.json
 # Test playground
 # ./src/tests/mypkg/testplayground.py
 
+/__pycache__
 /app copy.py
