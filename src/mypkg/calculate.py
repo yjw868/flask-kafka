@@ -70,12 +70,22 @@ def filter_input(x):
 
 
 def calculate_cov_matrix(msg):
+	"""
+	Input in the format (1,3), (2,3)
+	Return the cov_matrix in the format \
+		[[0.5040080000000002 0.5582240000000002] [0.5582240000000002 0.6182720000000002]] as text
+	"""	
+    msg_decoded = msg.value.decode("utf-8")
+    print(msg_decoded)
+
     try:
-        raw_input = [parse_number(msg.value.decode("utf-8"))]
+        raw_input = [parse_number(m) for m in msg_decoded.split()]
         final_input = filter_input(raw_input)
         cov_matrix = np.cov(final_input)
         result = np.array2string(cov_matrix, precision=16)
         return result
+        # return raw_input
     except Exception:
+        # return msg_decoded
         return "internal error"
 
