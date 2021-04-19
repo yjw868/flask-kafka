@@ -8,15 +8,8 @@ import re
 
 from mypkg.calculate import parse_number, filter_input
 
-# from flask import Flask
-# from flask import request
-# from flask import jsonify
-# import json
-# from io import StringIO
 import pandas as pd
 import numpy as np
-
-# import re
 
 
 app = Flask(__name__)
@@ -101,4 +94,4 @@ def kafkaproducer(message):
 
 
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=80, debug=True, log_output=True)
+    socketio.run(app, host="0.0.0.0", port=8000, debug=True, log_output=True)

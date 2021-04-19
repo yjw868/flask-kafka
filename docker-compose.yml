@@ -22,7 +22,7 @@ services:
         # image: app:kafka
         build: src
         ports:
-            - "0.0.0.0:80:80"
+            - "0.0.0.0:8000:8000"
         depends_on:
             - kafka
         restart: always
