@@ -70,11 +70,11 @@ def filter_input(x):
 
 
 def calculate_cov_matrix(msg):
-	"""
+    """
 	Input in the format (1,3), (2,3)
 	Return the cov_matrix in the format \
 		[[0.5040080000000002 0.5582240000000002] [0.5582240000000002 0.6182720000000002]] as text
-	"""	
+	"""
     msg_decoded = msg.value.decode("utf-8")
     print(msg_decoded)
 
