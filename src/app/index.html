@@ -6,6 +6,26 @@
 			integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA=="
 			crossorigin="anonymous"
 		></script>
+		<style>
+			html {
+				background: #dce3e6;
+				padding: 0 3%;
+			}
+			.page {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			input {
+				width: 1100px;
+				height: 50px;
+			}
+			#submitBtn {
+				font-size: 15px;
+				width: 140px;
+				margin-top: 9px;
+			}
+		</style>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function () {
 				var socket = io.connect("http://localhost:8000/kafka");
@@ -46,7 +66,10 @@
 				id="emit_data"
 				placeholder="Message"
 			/>
-			<input type="submit" value="Submit" />
+			<div>
+				<input id="submitBtn" type="submit" value="Submit" />
+			</div>
+			>
 		</form>
 		<h2>Logs</h2>
 		<div id="log"></div>
