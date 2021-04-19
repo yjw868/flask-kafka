@@ -94,7 +94,7 @@ TOPIC_NAME = "stackbox"
 @app.route("/")
 @cross_origin()
 def home():
-    return send_from_directory("/app", "index.html")
+    return send_from_directory("/app/app", "index.html")
 
 
 """ Kafka endpoints """

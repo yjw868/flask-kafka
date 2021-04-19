@@ -1,4 +1,7 @@
 import json
+from flask_cors import CORS, cross_origin
+from kafka import KafkaProducer, KafkaConsumer, TopicPartition
+import uuid
 from flask import Flask, session, request, json as flask_json
 from flask_socketio import (
     SocketIO,
@@ -9,6 +12,8 @@ from flask_socketio import (
     Namespace,
     disconnect,
 )
+
+# https://github.com/miguelgrinberg/Flask-SocketIO/blob/master/flask_socketio/test_client.py
 
 
 def test_info(client):
@@ -26,7 +31,7 @@ disconnected = None
 
 
 @socketio.on("connect")
-def on_connect():
+def test_on_connect():
     if request.args.get("fail"):
         return False
     send("connected")
@@ -43,13 +48,13 @@ def on_connect():
 
 
 @socketio.on("disconnect")
-def on_disconnect():
+def test_on_disconnect():
     global disconnected
     disconnected = "/"
 
 
 @socketio.event(namespace="/test")
-def connect():
+def test_connect():
     send("connected-test")
     send(json.dumps(request.args.to_dict(flat=False)))
     send(
@@ -64,7 +69,7 @@ def connect():
 
 
 @socketio.on("disconnect", namespace="/test")
-def on_disconnect_test():
+def test_on_disconnect_test():
     global disconnected
     disconnected = "/test"
 
