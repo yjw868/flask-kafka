@@ -6,7 +6,8 @@ import uuid
 from io import StringIO
 import re
 
-from mypkg.calculate import parse_number, filter_input
+# from mypkg.calculate import parse_number, filter_input
+from mypkg.calculate import calculate_cov_matrix
 
 import pandas as pd
 import numpy as np
@@ -50,22 +51,23 @@ def kafkaconsumer(message):
 
     for message in consumer:
         # # print("message is" + message.value.decode("utf-8"))
-        raw_input = [parse_number(message.value.decode("utf-8"))]
-        final_input = filter_input(raw_input)
-        cov_matrix = np.cov(final_input)
-        # jason.dumps only accpept str, convert result into str
-        result = np.array2string(cov_matrix, precision=16)
+        # raw_input = [parse_number(message.value.decode("utf-8"))]
+        # final_input = filter_input(raw_input)
+        # cov_matrix = np.cov(final_input)
+        # # jason.dumps only accpept str, convert result into str
+        # result = np.array2string(cov_matrix, precision=16)
+        result = calculate_cov_matrix(message)
         emit(
             "kafkaconsumer",
             {"data": message.value.decode("utf-8") + " covariance matrix is " + result},
         )
-        emit(
-            "kafkaconsumer",
-            {
-                "data": message.value.decode("utf-8")
-                + str(type(message.value.decode("utf-8")))
-            },
-        )
+        # emit(
+        #     "kafkaconsumer",
+        #     {
+        #         "data": message.value.decode("utf-8")
+        #         + str(type(message.value.decode("utf-8")))
+        #     },
+        # )
         # emit("kafkaconsumer", {"data": message.value.decode("utf-8")})
         if message.offset == lastOffset - 1:
             break
